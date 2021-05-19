@@ -9,6 +9,11 @@ const StreamSource = {
   ICECAST: "ICECAST",
 };
 
+/**
+ * @param {String} url - The url of the station you want to receive information of.
+ * @param {function(error, result):void} callback - The url of the station you want to receive information of.
+ * @param {String} [method] - Either SHOUTCAST_V1, SHOUTCAST_V2, STREAM or ICECAST
+ */
 function getStationInfo(url, callback, method) {
   let methodHandler = undefined;
 
@@ -35,15 +40,15 @@ function getStationInfo(url, callback, method) {
   }
 
   // Resolve the promise from the async function and return the station with the callback
-  // We shouldnt mix callbacks and promises but for backwards compatability I am breaking
+  // We shouldn't mix callbacks and promises but for backwards compatibility I am breaking
   // the law here......
   return findStation(url)
     .then(station => callback(null, station))
     .catch(err => callback(err));
 
-  /*
-  @params -> string: url of given stream
-  @returns -> mixed (object if successful, string if error)
+  /**
+   * @param {String} url - Url of given stream
+   * @returns {Object|Error} Mixed (object if successful, string if error)
   */
   async function findStation(url) {
     this.results = await V1(url);
@@ -65,7 +70,7 @@ function getStationInfo(url, callback, method) {
     function V1(url) {
       return new Promise((resolve, reject) => {
         try {
-          shoutcast.getShoutcastV1Station(url, function(error, station) {
+          shoutcast.getShoutcastV1Station(url, function (error, station) {
             resolve(station);
           });
         } catch (err) {
@@ -76,7 +81,7 @@ function getStationInfo(url, callback, method) {
     function V2(url) {
       return new Promise((resolve, reject) => {
         try {
-          shoutcast.getShoutcastV2Station(url, function(error, station) {
+          shoutcast.getShoutcastV2Station(url, function (error, station) {
             resolve(station);
           });
         } catch (err) {
@@ -87,7 +92,7 @@ function getStationInfo(url, callback, method) {
     function Icy(url) {
       return new Promise((resolve, reject) => {
         try {
-          icystream.getStreamStation(url, function(error, station) {
+          icystream.getStreamStation(url, function (error, station) {
             resolve(station);
           });
         } catch (err) {
@@ -98,7 +103,7 @@ function getStationInfo(url, callback, method) {
     function Ice(url) {
       return new Promise((resolve, reject) => {
         try {
-          icecast.getIcecastStation(url, function(error, station) {
+          icecast.getIcecastStation(url, function (error, station) {
             resolve(station);
           });
         } catch (err) {
