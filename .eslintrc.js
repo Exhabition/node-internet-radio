@@ -28,7 +28,6 @@ module.exports = {
         "no-multi-spaces": "error",
         "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
         "no-extra-parens": "error",
-        "no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
         "no-trailing-spaces": ["error"],
         "no-var": "error",
         "object-curly-spacing": ["error", "always"],

@@ -1,16 +1,16 @@
-var icecast = require('./lib/icecast.js');
-var shoutcast = require('./lib/shoutcast.js');
-var icystream = require('./lib/icystream.js');
+const icecast = require("./lib/icecast.js");
+const shoutcast = require("./lib/shoutcast.js");
+const icystream = require("./lib/icystream.js");
 
-var StreamSource = {
-  SHOUTCAST_V1: 'SHOUTCAST_V1',
-  SHOUTCAST_V2: 'SHOUTCAST_V2',
-  STREAM: 'STREAM',
-  ICECAST: 'ICECAST'
+const StreamSource = {
+  SHOUTCAST_V1: "SHOUTCAST_V1",
+  SHOUTCAST_V2: "SHOUTCAST_V2",
+  STREAM: "STREAM",
+  ICECAST: "ICECAST",
 };
 
 function getStationInfo(url, callback, method) {
-  var methodHandler = undefined;
+  let methodHandler = undefined;
 
   switch (method) {
     case StreamSource.SHOUTCAST_V1:
@@ -38,12 +38,8 @@ function getStationInfo(url, callback, method) {
   // We shouldnt mix callbacks and promises but for backwards compatability I am breaking
   // the law here......
   return findStation(url)
-    .then(station => {
-      return callback(null, station);
-    })
-    .catch(err => {
-      return callback(err);
-    });
+    .then(station => callback(null, station))
+    .catch(err => callback(err));
 
   /*
   @params -> string: url of given stream
@@ -52,20 +48,20 @@ function getStationInfo(url, callback, method) {
   async function findStation(url) {
     this.results = await V1(url);
     // Find which provider has our station
-    if (this.results == null || typeof this.results == 'undefined') {
+    if (this.results == null || typeof this.results == "undefined") {
       this.results = await V2(url);
     }
-    if (this.results == null || typeof this.results == 'undefined') {
+    if (this.results == null || typeof this.results == "undefined") {
       this.results = await Ice(url);
     }
-    if (this.results == null || typeof this.results == 'undefined') {
+    if (this.results == null || typeof this.results == "undefined") {
       this.results = await Icy(url);
     }
     return this.results;
 
-    //====================================================================================
-    //=                  Promise wrapper functions                                       =
-    //====================================================================================
+    // ====================================================================================
+    // =                  Promise wrapper functions                                       =
+    // ====================================================================================
     function V1(url) {
       return new Promise((resolve, reject) => {
         try {
